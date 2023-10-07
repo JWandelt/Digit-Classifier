@@ -1,12 +1,15 @@
 import pygame
+from abc import ABC, abstractmethod
 
-class Button():
-    def __init__(self, x, y, width, height, screen, buttonColor='#ffffff', buttonText='Button', onclickFunction=None, onePress=False):
+
+class Button(ABC):
+    def __init__(self, x, y, width, height, screen, buttonColor='#ffffff', buttonText='Button',
+                 onePress=False):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.onclickFunction = onclickFunction
+        # self.onclickFunction = onclickFunction
         self.onePress = onePress
         self.alreadyPressed = False
         font = pygame.font.SysFont('Arial', 40)
@@ -29,19 +32,22 @@ class Button():
         mousePos = pygame.mouse.get_pos()
 
         # Draw a rounded rectangle as the button background
-        pygame.draw.rect(self.buttonSurface, pygame.Color(self.fillColors['normal']), (0, 0, self.width, self.height), border_radius=20)
+        pygame.draw.rect(self.buttonSurface, pygame.Color(self.fillColors['normal']), (0, 0, self.width, self.height),
+                         border_radius=20)
 
         if self.buttonRect.collidepoint(mousePos):
-            pygame.draw.rect(self.buttonSurface, pygame.Color(self.fillColors['hover']), (0, 0, self.width, self.height), border_radius=20)
+            pygame.draw.rect(self.buttonSurface, pygame.Color(self.fillColors['hover']),
+                             (0, 0, self.width, self.height), border_radius=20)
 
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
-                pygame.draw.rect(self.buttonSurface, pygame.Color(self.fillColors['pressed']), (0, 0, self.width, self.height), border_radius=20)
+                pygame.draw.rect(self.buttonSurface, pygame.Color(self.fillColors['pressed']),
+                                 (0, 0, self.width, self.height), border_radius=20)
 
                 if self.onePress:
-                    self.onclickFunction()
+                    self.function()
 
                 elif not self.alreadyPressed:
-                    self.onclickFunction()
+                    self.function()
                     self.alreadyPressed = True
 
             else:
@@ -52,3 +58,7 @@ class Button():
             self.height / 2 - self.buttonSurf.get_rect().height / 2
         ])
         self.screen.blit(self.buttonSurface, self.buttonRect)
+
+    @abstractmethod
+    def function(self):
+        pass

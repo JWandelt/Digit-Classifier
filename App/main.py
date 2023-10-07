@@ -4,7 +4,8 @@ import pygame
 from pygame.locals import *
 
 # Local imports
-import App.Button
+import App.Buttons as bt
+import App.Buttons.SaveButton
 
 pygame.init()
 
@@ -29,14 +30,14 @@ def myFunction():
     print('Button Pressed')
 
 
-drawButton = App.Button.Button(285, 25, 130, 67, screen, GREEN, 'Draw', myFunction)
-saveButton = App.Button.Button(285, 107, 130, 67, screen, BROWN, 'Save', myFunction, True)
-clearButton = App.Button.Button(285, 189, 130, 67, screen, RED, 'Clear', myFunction, True)
+# drawButton = App.Buttons.Button.Button(285, 25, 130, 67, screen, GREEN, 'Draw', myFunction)
+saveButton = bt.SaveButton.SaveButton(285, 107, 130, 67, screen, BROWN, 'Save')
+# clearButton = App.Buttons.Button.Button(285, 189, 130, 67, screen, RED, 'Clear', myFunction)
 
 
-objects.append(drawButton)
+# objects.append(drawButton)
 objects.append(saveButton)
-objects.append(clearButton)
+# objects.append(clearButton)
 
 
 def main():
@@ -57,11 +58,10 @@ def main():
                 if (drawing):
                     mouse_position = pygame.mouse.get_pos()
                     if last_pos is not None and mouse_position[0] < SCREEN_WIDTH * 2/3:
-                        pygame.draw.line(screen, WHITE, last_pos, mouse_position, 3)
+                        pygame.draw.line(screen, WHITE, last_pos, mouse_position, 20)
                     if mouse_position[0] < SCREEN_WIDTH * 2/3:
                         last_pos = mouse_position
             elif event.type == MOUSEBUTTONUP:
-                mouse_position = (0, 0)
                 last_pos = None
                 drawing = False
             elif event.type == MOUSEBUTTONDOWN:
