@@ -1,0 +1,6 @@
+
+*.iml
+
+.idea/
+
+App/__pycache__/Button.cpython-311.pyc
