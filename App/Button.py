@@ -1,7 +1,7 @@
 import pygame
 
 class Button():
-    def __init__(self, x, y, width, height, screen, buttonText='Button', onclickFunction=None, onePress=False):
+    def __init__(self, x, y, width, height, screen, buttonColor='#ffffff', buttonText='Button', onclickFunction=None, onePress=False):
         self.x = x
         self.y = y
         self.width = width
@@ -12,7 +12,7 @@ class Button():
         font = pygame.font.SysFont('Arial', 40)
 
         self.fillColors = {
-            'normal': '#ffffff',
+            'normal': buttonColor,
             'hover': '#666666',
             'pressed': '#333333',
         }

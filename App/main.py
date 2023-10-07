@@ -3,6 +3,7 @@ import sys
 import pygame
 from pygame.locals import *
 
+# Local imports
 import App.Button
 
 pygame.init()
@@ -11,27 +12,36 @@ screen = pygame.display.set_mode((420, 280), 0, 32)
 font = pygame.font.SysFont('Arial', 40)
 objects = []
 
+# Define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+PURPLE = (245, 245, 220)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BROWN = (218, 160, 109)
+
+black_half = pygame.Rect(0, 0, 280, 280)
+purple_half = pygame.Rect(280, 0, 140, 280)
 
 def myFunction():
     print('Button Pressed')
 
 
-customButton = App.Button.Button(285, 5, 130, 87, screen, 'Clear', myFunction)
-customButton1 = App.Button.Button(285, 97, 130, 87, screen, 'Draw', myFunction, True)
-customButton2 = App.Button.Button(285, 189, 130, 87, screen, 'Save', myFunction, True)
+drawButton = App.Button.Button(285, 25, 130, 67, screen, GREEN, 'Draw', myFunction)
+saveButton = App.Button.Button(285, 107, 130, 67, screen, BROWN, 'Save', myFunction, True)
+clearButton = App.Button.Button(285, 189, 130, 67, screen, RED, 'Clear', myFunction, True)
 
-objects.append(customButton)
-objects.append(customButton1)
-objects.append(customButton2)
+
+objects.append(drawButton)
+objects.append(saveButton)
+objects.append(clearButton)
 
 
 def main():
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-
     mouse_position = (0, 0)
     drawing = False
-    screen.fill(BLACK)
+    screen.fill(BLACK, black_half)
+    screen.fill(PURPLE, purple_half)
     pygame.display.set_caption("ScratchBoard")
 
     last_pos = None
