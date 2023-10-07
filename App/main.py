@@ -8,20 +8,22 @@ import App.Button
 
 pygame.init()
 
-screen = pygame.display.set_mode((420, 280), 0, 32)
-font = pygame.font.SysFont('Arial', 40)
-objects = []
-
-# Define colors
+# Define constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (245, 245, 220)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BROWN = (218, 160, 109)
+SCREEN_WIDTH = 420
+SCREEN_HEIGHT = 280
 
-black_half = pygame.Rect(0, 0, 280, 280)
-purple_half = pygame.Rect(280, 0, 140, 280)
+# Set variables.
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+black_half = pygame.Rect(0, 0, SCREEN_WIDTH * 2/3, SCREEN_HEIGHT)
+purple_half = pygame.Rect(SCREEN_WIDTH * 2/3, 0, SCREEN_WIDTH * 1/3, SCREEN_HEIGHT)
+objects = []
+
 
 def myFunction():
     print('Button Pressed')
@@ -54,17 +56,19 @@ def main():
             elif event.type == MOUSEMOTION:
                 if (drawing):
                     mouse_position = pygame.mouse.get_pos()
-                    if last_pos is not None:
+                    if last_pos is not None and mouse_position[0] < SCREEN_WIDTH * 2/3:
                         pygame.draw.line(screen, WHITE, last_pos, mouse_position, 3)
-                    last_pos = mouse_position
+                    if mouse_position[0] < SCREEN_WIDTH * 2/3:
+                        last_pos = mouse_position
             elif event.type == MOUSEBUTTONUP:
                 mouse_position = (0, 0)
+                last_pos = None
                 drawing = False
             elif event.type == MOUSEBUTTONDOWN:
                 drawing = True
 
-        for object in objects:
-            object.process()
+        for o in objects:
+            o.process()
 
         pygame.display.update()
 
