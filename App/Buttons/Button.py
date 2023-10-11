@@ -3,16 +3,16 @@ from abc import ABC, abstractmethod
 
 
 class Button(ABC):
-    def __init__(self, x, y, width, height, screen, buttonColor='#ffffff', buttonText='Button',
+    def __init__(self, x, y, width, height, screen, buttonColor='#ffffff', buttonText='Button', arg=None,
                  onePress=False):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        # self.onclickFunction = onclickFunction
+        self.arg = arg
         self.onePress = onePress
         self.alreadyPressed = False
-        font = pygame.font.SysFont('Arial', 40)
+        font = pygame.font.SysFont('Arial', 30)
 
         self.fillColors = {
             'normal': buttonColor,
@@ -44,10 +44,10 @@ class Button(ABC):
                                  (0, 0, self.width, self.height), border_radius=20)
 
                 if self.onePress:
-                    self.function()
+                    self.function(self.arg)
 
                 elif not self.alreadyPressed:
-                    self.function()
+                    self.function(self.arg)
                     self.alreadyPressed = True
 
             else:
@@ -60,5 +60,5 @@ class Button(ABC):
         self.screen.blit(self.buttonSurface, self.buttonRect)
 
     @abstractmethod
-    def function(self):
+    def function(self, arg):
         pass
