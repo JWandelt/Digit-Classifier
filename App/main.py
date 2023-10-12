@@ -4,10 +4,7 @@ import pygame
 from pygame.locals import *
 
 # Local imports
-import App.Buttons as bt
-import App.Buttons.ClearButton
-import App.Buttons.DrawEraseButton
-import App.Buttons.SaveButton
+from App.Buttons import ClearButton, DrawEraseButton, SaveButton
 
 pygame.init()
 
@@ -28,9 +25,10 @@ lb_half = pygame.Rect(SCREEN_WIDTH * 2 / 3, 0, SCREEN_WIDTH * 1 / 3, SCREEN_HEIG
 drawing_color = [WHITE]
 objects = []
 
-drawButton = bt.DrawEraseButton.DrawEraseButton(285, 25, 130, 67, screen, GREEN, 'Draw/Erase', drawing_color)
-saveButton = bt.SaveButton.SaveButton(285, 107, 130, 67, screen, BROWN, 'Save')
-clearButton = bt.ClearButton.ClearButton(285, 189, 130, 67, screen, RED, 'Clear')
+# Define buttons.
+drawButton = DrawEraseButton.DrawEraseButton(285, 25, 130, 67, screen, GREEN, 'Draw/Erase', drawing_color)
+saveButton = SaveButton.SaveButton(285, 107, 130, 67, screen, BROWN, 'Save')
+clearButton = ClearButton.ClearButton(285, 189, 130, 67, screen, RED, 'Clear')
 
 objects.append(drawButton)
 objects.append(saveButton)
@@ -38,7 +36,6 @@ objects.append(clearButton)
 
 
 def main():
-    mouse_position = (0, 0)
     drawing = False
     screen.fill(BLACK, black_half)
     screen.fill(LIGHT_BROWN, lb_half)
@@ -52,7 +49,7 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEMOTION:
-                if (drawing):
+                if drawing:
                     mouse_position = pygame.mouse.get_pos()
                     if last_pos is not None and mouse_position[0] < SCREEN_WIDTH * 2/3:
                         pygame.draw.line(screen, drawing_color[0], last_pos, mouse_position, 20)
