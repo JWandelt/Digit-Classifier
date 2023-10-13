@@ -9,33 +9,41 @@ def train_model():
     data = keras.datasets.mnist
     (x_train, y_train), (x_test, y_test) = data.load_data()
 
-    # Create model using sequential API
+    # Normalize the input data to the range [0, 1]
+    x_train, x_test = x_train / 255.0, x_test / 255.0
+
+    # Create a model using the Sequential API
     model = keras.Sequential([
-        # Input Layers
-        keras.layers.Flatten(input_shape=(28, 28,)),
-        # Hidden Layers
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(128, activation='relu'),
+        # Convolutional Layers
+        keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+        keras.layers.MaxPooling2D((2, 2)),
+        keras.layers.Conv2D(64, (3, 3), activation='relu'),
+        keras.layers.MaxPooling2D((2, 2)),
+
+        # Flatten the output of the convolutional layers
+        keras.layers.Flatten(),
+
+        # Fully Connected Layers
         keras.layers.Dense(128, activation='relu'),
         keras.layers.Dropout(0.5),
-        # Output Layers
+
+        # Output Layer
         keras.layers.Dense(10, activation='softmax')
     ])
 
-    # Compile model
+    # Compile the model
     model.compile(
         optimizer=keras.optimizers.Adam(),
         loss=keras.losses.SparseCategoricalCrossentropy(),
         metrics=['accuracy']
     )
 
-    # Model training
-    model.fit(x_train, y_train, verbose=1, epochs=48, batch_size=32)
+    # Reshape the input data to include a single channel (since MNIST images are grayscale)
+    x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
+    x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
+
+    # Train the model
+    model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
 
     # Make prediction from test data
     prediction_probability = model.predict(x_test)

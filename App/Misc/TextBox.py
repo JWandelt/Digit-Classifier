@@ -10,6 +10,7 @@ class TextBox():
         self.y = y
         self.width = width
         self.height = height
+        self.text = text
         font = pygame.font.SysFont('Arial', 15)
 
         self.fillColors = {
@@ -19,7 +20,7 @@ class TextBox():
         self.textBoxSurface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.textBoxRect = pygame.Rect(self.x, self.y, self.width, self.height)
 
-        self.textBoxSurf = font.render(text, True, textColor)
+        self.textBoxSurf = font.render(self.text, True, textColor)
 
         self.screen = screen
 
