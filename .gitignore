@@ -14,3 +14,7 @@ App/model_input.jpg
 App/model_input2.jpg
 
 App/screenshot.jpg
+
+*.pyc
+
+Model/mnist_classification.h5
