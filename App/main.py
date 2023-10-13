@@ -3,7 +3,6 @@ import sys
 import pygame
 from pygame.locals import *
 
-import App.Misc.TextBox
 from App.Misc import TextBox
 # Local imports
 from App.Buttons import ClearButton, DrawEraseButton, PredictButton
@@ -30,14 +29,14 @@ text_boxes = []
 
 # Define buttons.
 drawButton = DrawEraseButton.DrawEraseButton(285, 10, 130, 60, screen, GREEN, 'Draw/Erase', drawing_color)
-saveButton = PredictButton.PredictButton(285, 80, 130, 60, screen, BROWN, 'Predict')
+predictButton = PredictButton.PredictButton(285, 80, 130, 60, screen, BROWN, 'Predict')
 clearButton = ClearButton.ClearButton(285, 150, 130, 60, screen, RED, 'Clear')
 
-predictionTb = TextBox.TextBox(285, 240, 65, 30, screen, LIGHT_BROWN, 'Prediction: ', BLACK)
-outputTb = TextBox.TextBox(345, 240, 65, 30, screen, LIGHT_BROWN, '', BLACK)
+predictionTb = TextBox.TextBox(285, 240, 65, 30, screen, 'Prediction: ', LIGHT_BROWN,  BLACK)
+outputTb = TextBox.TextBox(345, 240, 65, 30, screen, 'dddd', LIGHT_BROWN, BLACK)
 
 buttons.append(drawButton)
-buttons.append(saveButton)
+buttons.append(predictButton)
 buttons.append(clearButton)
 
 text_boxes.append(predictionTb)
@@ -72,6 +71,8 @@ def main():
 
         for o in buttons:
             o.process()
+
+        outputTb.text = str(predictButton.prediction)
 
         for tb in text_boxes:
             tb.displayText()
