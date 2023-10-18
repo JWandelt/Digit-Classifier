@@ -2,6 +2,40 @@ import os.path
 from tensorflow import keras
 from sklearn.metrics import classification_report
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def plot_learning_curve(history):
+    # Extract training and validation accuracy and loss from the history object
+    training_accuracy = history.history['accuracy']
+    validation_accuracy = history.history['val_accuracy']
+    training_loss = history.history['loss']
+    validation_loss = history.history['val_loss']
+
+    # Create subplots
+    plt.figure(figsize=(12, 4))
+
+    # Plot Training and Validation Accuracy
+    plt.subplot(1, 2, 1)
+    plt.plot(training_accuracy, label='Training Accuracy')
+    plt.plot(validation_accuracy, label='Validation Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.title('Training and Validation Accuracy')
+    plt.legend()
+
+    # Plot Training and Validation Loss
+    plt.subplot(1, 2, 2)
+    plt.plot(training_loss, label='Training Loss')
+    plt.plot(validation_loss, label='Validation Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+
+    # Show the plot
+    plt.tight_layout()
+    plt.show()
 
 
 def train_model():
@@ -43,7 +77,7 @@ def train_model():
     x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
 
     # Train the model
-    model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
+    learning_history = model.fit(x_train, y_train, epochs=10, validation_data=(x_test, y_test))
 
     # Make prediction from test data
     prediction_probability = model.predict(x_test)
@@ -54,7 +88,7 @@ def train_model():
 
     # Save model
     model.save('mnist_classification.h5')
-
+    plot_learning_curve(learning_history)
 
 path = 'mnist_classification.h5'
 
